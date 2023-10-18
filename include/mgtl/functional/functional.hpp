@@ -36,7 +36,6 @@ template<typename F, typename S, typename... T> struct is_one_of<F, S, T...>
   static constexpr bool value = std::is_same_v<F, S> || is_one_of_v<F, T...>;
 };
 
-/*
 template<typename...> struct and_t : std::true_type
 {
 };
@@ -46,10 +45,9 @@ template<typename T> struct and_t<T> : T
 };
 
 template<typename... T> static constexpr auto and_v = and_t<T...>::value;
-template<typename T, typename... Tn> struct and_t<T, Tn...> : std::conditional<bool(T::value), and_t<Tn...>, T>
+template<typename T, typename... Tn> struct and_t<T, Tn...> : std::conditional_t<bool(T::value), and_t<Tn...>, T>
 {
 };
-*/
 
 template<typename T> struct type_is
 {
@@ -59,12 +57,6 @@ template<typename T> struct type_is
 template<typename V, V value, class Enable = void> struct is_integer_but_not_zero_t : public std::false_type
 {
 };
-/*
-template<typename V, V value>
-struct is_integer_but_not_zero_t<V, value, typename std::enable_if_t<std::is_integral_v<V>>> : public std::false_type
-{
-};
-*/
 template<typename V, V value>
 struct is_integer_but_not_zero_t<V,
   value,

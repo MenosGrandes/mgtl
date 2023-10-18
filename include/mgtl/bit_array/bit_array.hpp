@@ -34,7 +34,7 @@ namespace bit_array {
     struct is_same_bite_size_t<N,
       _memory_t,
       typename std::enable_if_t<
-        std::conjunction_v<is_integer_but_not_zero_t<std::size_t, N>, is_true<std::numeric_limits<_memory_t>::digits == N>>>>
+        and_v<is_integer_but_not_zero_t<std::size_t, N>, is_true<std::numeric_limits<_memory_t>::digits == N>>>>
       : public std::true_type
     {
     };
