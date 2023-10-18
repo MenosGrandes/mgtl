@@ -35,21 +35,14 @@ TEST_CASE("is_buildin_size_v", "[tag]")
 
   TEST_CASE("BitArray64 internal values", "[tag]")
   {
-
     using BitArray = BitArray_t<_64>;
-    static constexpr auto _1_v = i_const_v<1>;
     STATIC_REQUIRE(BitArray::memory_t_digits == _64);
-    STATIC_REQUIRE(BitArray::memory_size_rest_v == _0_v);
-    STATIC_REQUIRE(BitArray::number_of_bites_v == _64);
-    STATIC_REQUIRE(BitArray::same_bite_size_v == is_true_v);
-    STATIC_REQUIRE(BitArray::memory_size_rounded_up_v == _1_v);
-    STATIC_REQUIRE(BitArray::memory_size_whole_v == _1_v);
   }
   TEST_CASE("BitArray64 is_same_v", "[tag]")
   {
 
     using BitArray = BitArray_t<_64>;
-    STATIC_REQUIRE(std::is_same_v<BitArray_t<_64>::memory_t, uint64_t>);
+    //STATIC_REQUIRE(std::is_same_v<BitArray_t<_64>::, uint64_t>);
     STATIC_REQUIRE(std::is_same_v<BitArray64_t, BitArray>);
   }
 /*

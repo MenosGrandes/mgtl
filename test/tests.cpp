@@ -8,7 +8,7 @@ using namespace bite_size;
 	template <typename BitArrayT>
 bool test_bit_array_set_get_clean(BitArrayT test_bit_array)
 {
-	for (typename BitArrayT::memory_t i = 0; i < test_bit_array.number_of_bites_v; i++) {
+	for (typename BitArrayT::base::memory_t i = 0; i < test_bit_array.size(); i++) {
 		REQUIRE(test_bit_array.get(i) == false);
 		test_bit_array.set(i);
 		REQUIRE(test_bit_array.get(i) == true);
