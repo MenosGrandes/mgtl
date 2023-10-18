@@ -1,8 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include <mgtl/bit_array/bit_array.hpp>
 
+using namespace mgtl;
 using namespace bit_array;
-using namespace bit_array::bite_size;
+using namespace bite_size;
 
 	template <typename BitArrayT>
 bool test_bit_array_set_get_clean(BitArrayT test_bit_array)

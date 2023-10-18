@@ -1,4 +1,4 @@
-#include <fmt/format.h>
+//#include <fmt/format.h>
 #include <iterator>
 #include <utility>
 
@@ -15,8 +15,8 @@
 
 // Fuzzer that attempts to invoke undefined behavior for signed integer overflow
 // cppcheck-suppress unusedFunction symbolName=LLVMFuzzerTestOneInput
-extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)
+extern "C" int LLVMFuzzerTestOneInput([[maybe_unused]] const uint8_t *Data, [[maybe_unused]] size_t Size)
 {
-  fmt::print("Value sum: {}, len{}\n", sum_values(Data, Size), Size);
+//  fmt::print("Value sum: {}, len{}\n", sum_values(Data, Size), Size);
   return 0;
 }

@@ -2,8 +2,10 @@
 
 #include <mgtl/bit_array/bit_array.hpp>
 
-using namespace bit_array;
-using namespace bit_array::bite_size;
+using namespace mgtl::bit_array;
+using namespace mgtl::bit_array::bite_size;
+using namespace mgtl::functional;
+using namespace mgtl;
 
 TEST_CASE("is_one_of_v", "[tag]")
 {
@@ -24,10 +26,10 @@ TEST_CASE("is_buildin_v", "[tag]")
 }
 TEST_CASE("is_buildin_size_v", "[tag]")
 {
-  STATIC_REQUIRE(bit_array::bite_size::is_buildin_size_v<bit_array::_32> == bit_array::is_true_v);
-  STATIC_REQUIRE(bit_array::bite_size::is_buildin_size_v<bit_array::_64> == bit_array::is_true_v);
-  STATIC_REQUIRE(bit_array::bite_size::is_buildin_size_v<bit_array::_8> == bit_array::is_true_v);
-  STATIC_REQUIRE(bit_array::bite_size::is_buildin_size_v<bit_array::_16> == bit_array::is_true_v);
+  STATIC_REQUIRE(bit_array::bite_size::is_buildin_size_v<bit_array::_32> == is_true_v);
+  STATIC_REQUIRE(bit_array::bite_size::is_buildin_size_v<bit_array::_64> == is_true_v);
+  STATIC_REQUIRE(bit_array::bite_size::is_buildin_size_v<bit_array::_8> == is_true_v);
+  STATIC_REQUIRE(bit_array::bite_size::is_buildin_size_v<bit_array::_16> == is_true_v);
 }
 
 
