@@ -101,7 +101,7 @@ namespace bit_array {
       using bite_size_base = bite_size::bite_size<N, memory_t>;
       using BitManipulatorImpl = manipulator::BitManipulator<memory_t>;
       BitManipulatorImpl bm{};
-      constexpr memory_t size()
+      constexpr static memory_t size()
       {
         return bite_size_base::base::number_of_bites_v;
       }
@@ -131,7 +131,6 @@ namespace bit_array {
 
     void set(memory_t bit)
     {
-      constexpr auto index_max = base_2::memory_size_rounded_up_v - 1;
       const auto index = static_cast<memory_t>(bit / base_2::memory_t_digits);
       const auto element = (bit + base_2::memory_t_digits * index) % base_2::memory_t_digits;
       this->_v[index] = this->bm.set(element, std::move(this->_v));// MG Check if this is correct!
