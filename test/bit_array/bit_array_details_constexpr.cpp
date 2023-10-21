@@ -1,30 +1,60 @@
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_template_test_macros.hpp>
 #include <mgtl/type_traits/type_traits.hpp>
 #include <mgtl/bit_array/type_traits.hpp>
 #include <mgtl/bit_array/bit_array_details.hpp>
 #include <mgtl/bit_array/bit_array.hpp>
 #include <mgtl/bit_array/constants.hpp>
+#include <limits>
 using namespace mgtl;
 using namespace mgtl::type_traits;
+using namespace mgtl::bit_array;
 using namespace mgtl::bit_array::bite_size;
 using namespace mgtl::bit_array::type_traits;
 using namespace mgtl::bit_array::constants;
 
+#define TEST_TYPES                                                                                           \
+  BitArray64_t, BitArray32_t, BitArray16_t, BitArray8_t, (BitArray<64, uint64_t>), (BitArray<32, uint32_t>), \
+    (BitArray<16, uint16_t>), (BitArray<8, uint8_t>)
 
-TEST_CASE("BitArray64 internal values", "[tag]")
+TEMPLATE_TEST_CASE("memory_t same size types", "[tag]", TEST_TYPES)
 {
-  using BitArray = mgtl::BitArray_t<_64>;
-  STATIC_REQUIRE(BitArray::memory_t_digits == _64);
+    using BitArray = TestType;
+    static constexpr auto N = BitArray::number_of_bites_v;
+    using memory_t = typename BitArray::memory_t;
+
+  STATIC_REQUIRE(BitArray::memory_t_digits == N);
+
+  STATIC_REQUIRE(std::is_same_v<typename BitArray::base::memory_t, typename BitArray::memory_t>);
+  STATIC_REQUIRE(std::is_same_v<typename BitArray::base_1::memory_t,typename  BitArray::memory_t>);
+  STATIC_REQUIRE(std::is_same_v<typename BitArray::base_2::memory_t,typename  BitArray::memory_t>);
+  STATIC_REQUIRE(std::is_same_v<typename BitArray::memory_t, memory_t>);
+
+  STATIC_REQUIRE(BitArray::base_1::base::memory_t_digits == std::numeric_limits<memory_t>::digits);
+  STATIC_REQUIRE(BitArray::base_1::memory_t_digits == BitArray::memory_t_digits);
+  STATIC_REQUIRE(BitArray::base_1::memory_t_digits == BitArray::base::memory_t_digits);
+  STATIC_REQUIRE(BitArray::base_1::memory_t_digits == BitArray::base_2::memory_t_digits);
+
+  STATIC_REQUIRE(BitArray::base::memory_size_whole_v == BitArray::memory_size_whole_v);
+  STATIC_REQUIRE(BitArray::base_1::memory_size_whole_v ==BitArray::memory_size_whole_v );
+  STATIC_REQUIRE(BitArray::base_2::memory_size_whole_v == BitArray::memory_size_whole_v);
+  STATIC_REQUIRE(BitArray::memory_size_whole_v == 1);
+
+  STATIC_REQUIRE(BitArray::base::number_of_bites_v == BitArray::number_of_bites_v);
+  STATIC_REQUIRE(BitArray::base_1::number_of_bites_v ==BitArray::number_of_bites_v);
+  STATIC_REQUIRE(BitArray::base_2::number_of_bites_v ==BitArray::number_of_bites_v);
+  STATIC_REQUIRE(BitArray::number_of_bites_v == N);
 }
+/*
+
 TEST_CASE("BitArray64 is_same_v", "[tag]")
 {
 
-  using BitArray = BitArray_t<_64>;
-  // STATIC_REQUIRE(std::is_same_v<BitArray_t<_64>::, uint64_t>);
+  using BitArray = mgtl::bit_array::BitArray_t<_64>;
+  STATIC_REQUIRE(std::is_same_v<BitArray::memory_t, uint64_t>);
   STATIC_REQUIRE(std::is_same_v<BitArray64_t, BitArray>);
 }
-/*
 
   TEST_CASE("BitArray32", "[tag]")
   {

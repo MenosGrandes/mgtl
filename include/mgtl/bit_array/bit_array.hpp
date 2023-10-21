@@ -12,7 +12,8 @@
 #pragma once
 using namespace mgtl::type_traits;
 using namespace mgtl::bit_array::type_traits;
-namespace mgtl {
+using namespace mgtl::bit_array::details;
+namespace mgtl::bit_array {
 template<std::size_t _N, typename memory_t>
 using BitArray = typename std::conditional_t<is_same_bite_size_v<_N, memory_t>,
   self_configure_size_memory_t_t<_N, memory_t>,

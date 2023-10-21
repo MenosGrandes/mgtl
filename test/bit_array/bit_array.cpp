@@ -2,10 +2,18 @@
 #include <mgtl/bit_array/bit_array.hpp>
 #include <mgtl/bit_array/constants.hpp>
 
-using namespace mgtl;
+using namespace mgtl::bit_array;
 
-template<typename BitArrayT> bool test_bit_array_set_get_clean()
+#include <catch2/catch_template_test_macros.hpp>
+
+#define TEST_TYPES                                                                                           \
+  BitArray64_t, BitArray32_t, BitArray16_t, BitArray8_t, (BitArray<64, uint64_t>), (BitArray<32, uint32_t>), \
+    (BitArray<16, uint16_t>), (BitArray<8, uint8_t>)
+
+TEMPLATE_TEST_CASE("BitArray set test", "[tag]", TEST_TYPES)
 {
+
+  using BitArrayT = TestType;
   BitArrayT test_bit_array;
   for (typename BitArrayT::base::memory_t i = 0; i < BitArrayT::size(); i++) {
     REQUIRE(test_bit_array.get(i) == false);
@@ -14,45 +22,4 @@ template<typename BitArrayT> bool test_bit_array_set_get_clean()
     test_bit_array.clear(i);
     REQUIRE(test_bit_array.get(i) == false);
   }
-
-  return true;
-}
-
-TEST_CASE("BitArray set test - 64 same size dupa", "[constructor]")
-{
-  using BitArray = BitArray64_t;
-  REQUIRE(test_bit_array_set_get_clean<BitArray>());
-}
-TEST_CASE("BitArray set test - 64 same size, deducted type", "[constructor]")
-{
-
-  using BitArray = BitArray_t<_64>;
-  REQUIRE(test_bit_array_set_get_clean<BitArray>());
-}
-TEST_CASE("BitArray set test - 32 same size", "[constructor]")
-{
-  using BitArray = BitArray32_t;
-  REQUIRE(test_bit_array_set_get_clean<BitArray>());
-}
-
-
-TEST_CASE("BitArray set test - 32 same size, deducted size", "[constructor]")
-{
-
-  using BitArray = BitArray_t<_32>;
-  REQUIRE(test_bit_array_set_get_clean<BitArray>());
-}
-
-TEST_CASE("BitArray set test - 16 same size", "[constructor]")
-{
-
-  using BitArray = BitArray16_t;
-  REQUIRE(test_bit_array_set_get_clean<BitArray>());
-}
-
-TEST_CASE("BitArray set test - 16 same size, deducted size", "[constructor]")
-{
-
-  using BitArray = BitArray_t<_16>;
-  REQUIRE(test_bit_array_set_get_clean<BitArray>());
 }

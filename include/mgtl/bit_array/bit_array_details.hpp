@@ -12,9 +12,8 @@
 
 #pragma once
 
-namespace mgtl {
+namespace mgtl::bit_array::details {
 using namespace mgtl::type_traits;
-using namespace mgtl::bit_array;
 
 namespace base {
   template<std::size_t N, typename memory_t> struct _BitArrayBase_t : public bite_size::bite_size<N, memory_t>

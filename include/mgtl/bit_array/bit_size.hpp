@@ -21,7 +21,7 @@ template<std::size_t N, typename _memory_t, class IsMemortTSameSizeAsN = void> s
 {
 };
 template<std::size_t N, typename _memory_t>
-struct bite_size<N, _memory_t, typename std::enable_if_t<!is_same_bite_size_v<N, _memory_t>>>
+struct bite_size<N, _memory_t, typename std::enable_if_t<is_same_bite_size_v<N, _memory_t>>>
   : public bite_size_base<N, _memory_t>
 {
   using base = bite_size_base<N, _memory_t>;
@@ -33,7 +33,7 @@ struct bite_size<N, _memory_t, typename std::enable_if_t<!is_same_bite_size_v<N,
 
 
 template<std::size_t N, typename _memory_t>
-struct bite_size<N, _memory_t, typename std::enable_if_t<is_same_bite_size_v<N, _memory_t>>>
+struct bite_size<N, _memory_t, typename std::enable_if_t<!is_same_bite_size_v<N, _memory_t>>>
   : public bite_size_base<N, _memory_t>
 {
   using base = bite_size_base<N, _memory_t>;
