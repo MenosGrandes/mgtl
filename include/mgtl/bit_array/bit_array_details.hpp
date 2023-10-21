@@ -31,7 +31,7 @@ class _BitArrayBase_Array_t : public base::_BitArrayBase_t<N, memory_t>
 
   constexpr auto fill() -> void
   {
-    for (auto i = 0; i < this->_v.size(); i++) { _v[i] = memory_t{}; }
+    for (memory_t i = 0; i < this->_v.size(); i++) { _v[i] = memory_t{}; }
   }
 
 public:
@@ -47,13 +47,29 @@ public:
   constexpr explicit _BitArrayBase_Array_t() { fill(); };
   alignas(memory_t) raw_memory_t _v;
 
-  void set(memory_t bit)
+  void set([[maybe_unused]]memory_t bit)
   {
-    const auto index = static_cast<memory_t>(bit / base_2::memory_t_digits);
-    const auto element = (bit + base_2::memory_t_digits * index) % base_2::memory_t_digits;
+    /*
+    const auto index = static_cast<memory_t>(bit / base_1::memory_t_digits);
+    const auto element = (bit + base_1::memory_t_digits * index) % base_1::memory_t_digits;
     this->_v[index] = this->bm.set(element, std::move(this->_v));// MG Check if this is correct!
     //_v[index] = _v[index] | (static_cast<memory_t>(1) << element);
+ */
+    }
+  auto get([[maybe_unused]] memory_t bit) -> bool
+  {
+   // const auto index = static_cast<memory_t>(bit / base_1::memory_t_digits);
+ //   const auto element = (bit + base_1::memory_t_digits * index) % base_1::memory_t_digits;
+    return false;// this->bm.get(element, std::move(this->_v));// MG Check if this is correct!
   }
+  auto clear([[maybe_unused]] memory_t bit) -> void
+  {
+    /*
+    const auto index = static_cast<memory_t>(bit / base_1::memory_t_digits);
+    const auto element = (bit + base_1::memory_t_digits * index) % base_1::memory_t_digits;
+    this->_v[index] = this->bm.clear(element, std::move(this->_v));// MG Check if this is correct!
+  */
+    }
 };
 
 template<std::size_t N, typename memory_t> class _BitArrayBase_SameSize_t : public base::_BitArrayBase_t<N, memory_t>

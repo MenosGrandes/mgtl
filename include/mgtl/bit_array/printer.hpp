@@ -1,6 +1,7 @@
 #include <mgtl/bit_array/bit_array_details.hpp>
 #pragma once
 
+using namespace mgtl::bit_array::details;
 namespace mgtl::bit_array{
   namespace printer {
 
