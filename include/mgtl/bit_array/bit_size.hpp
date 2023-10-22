@@ -14,7 +14,7 @@ template<std::size_t N, typename _memory_t> struct bite_size_base
 {
   using memory_t = _memory_t;
   constexpr static auto memory_t_digits = std::numeric_limits<memory_t>::digits;
-  constexpr static auto memory_size_whole_v = N / memory_t_digits;
+  constexpr static auto memory_size_whole_v = static_cast<memory_t>(N / memory_t_digits);
   constexpr static auto number_of_bites_v = N;
 };
 template<std::size_t N, typename _memory_t, class IsMemortTSameSizeAsN = void> struct bite_size
@@ -42,7 +42,7 @@ struct bite_size<N, _memory_t, typename std::enable_if_t<!is_same_bite_size_v<N,
   using base::memory_size_whole_v;
   using base::number_of_bites_v;
 
-  constexpr static auto memory_size_rest_v = N - (memory_t_digits * memory_size_whole_v);
+  constexpr static auto memory_size_rest_v = static_cast<memory_t>(N - (memory_t_digits * memory_size_whole_v));
   constexpr static auto memory_size_rounded_up_v = memory_size_whole_v + 1;
 };
 

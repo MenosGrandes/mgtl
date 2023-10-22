@@ -33,6 +33,14 @@ class _BitArrayBase_Array_t : public base::_BitArrayBase_t<N, memory_t>
   {
     for (memory_t i = 0; i < this->_v.size(); i++) { _v[i] = memory_t{}; }
   }
+  constexpr auto get_element(memory_t bit) -> std::tuple<memory_t, memory_t>
+  {
+
+    const auto index = static_cast<memory_t>(bit / base_1::memory_t_digits);
+    const memory_t element = (bit + base_1::memory_t_digits * index) % base_1::memory_t_digits;
+
+    return { index, element };
+  }
 
 public:
   using base_1 = typename base::_BitArrayBase_t<N, memory_t>;
@@ -47,29 +55,22 @@ public:
   constexpr explicit _BitArrayBase_Array_t() { fill(); };
   alignas(memory_t) raw_memory_t _v;
 
-  void set([[maybe_unused]]memory_t bit)
+  void set([[maybe_unused]] memory_t bit)
   {
-    /*
-    const auto index = static_cast<memory_t>(bit / base_1::memory_t_digits);
-    const auto element = (bit + base_1::memory_t_digits * index) % base_1::memory_t_digits;
-    this->_v[index] = this->bm.set(element, std::move(this->_v));// MG Check if this is correct!
-    //_v[index] = _v[index] | (static_cast<memory_t>(1) << element);
- */
-    }
+
+    auto [index, element] = get_element(bit);
+    this->_v[index] = this->bm.set(element, std::move(this->_v[index]));
+  }
   auto get([[maybe_unused]] memory_t bit) -> bool
   {
-   // const auto index = static_cast<memory_t>(bit / base_1::memory_t_digits);
- //   const auto element = (bit + base_1::memory_t_digits * index) % base_1::memory_t_digits;
-    return false;// this->bm.get(element, std::move(this->_v));// MG Check if this is correct!
+    auto [index, element] = get_element(bit);
+    return this->bm.get(element, std::move(this->_v[index]));
   }
   auto clear([[maybe_unused]] memory_t bit) -> void
   {
-    /*
-    const auto index = static_cast<memory_t>(bit / base_1::memory_t_digits);
-    const auto element = (bit + base_1::memory_t_digits * index) % base_1::memory_t_digits;
-    this->_v[index] = this->bm.clear(element, std::move(this->_v));// MG Check if this is correct!
-  */
-    }
+    auto [index, element] = get_element(bit);
+    this->_v[index] = this->bm.clear(element, std::move(this->_v[index]));
+  }
 };
 
 template<std::size_t N, typename memory_t> class _BitArrayBase_SameSize_t : public base::_BitArrayBase_t<N, memory_t>
@@ -113,4 +114,4 @@ template<std::size_t _N> using self_configure_size_array_t = conditional_size64_
 
 template<std::size_t _N, typename T> using self_configure_size_memory_t_t = conditional_size64_t<_N, T>;
 
-}// namespace mgtl
+}// namespace mgtl::bit_array::details
