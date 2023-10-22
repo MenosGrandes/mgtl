@@ -5,12 +5,12 @@
 
 namespace mgtl::type_traits
 {
-template<typename T, T N> using integral_const_t = std::integral_constant<T, N>;
-template<typename T, T N> static constexpr T integral_const_v = integral_const_t<T, N>::value;
+template<typename T, T NUMBER_OF_BITS> using integral_const_t = std::integral_constant<T, NUMBER_OF_BITS>;
+template<typename T, T NUMBER_OF_BITS> static constexpr T integral_const_v = integral_const_t<T, NUMBER_OF_BITS>::value;
 
 
-template<std::size_t N> using i_const_t = integral_const_t<std::size_t, N>;
-template<std::size_t N> static constexpr std::size_t i_const_v = integral_const_t<std::size_t, N>::value;
+template<std::size_t NUMBER_OF_BITS> using i_const_t = integral_const_t<std::size_t, NUMBER_OF_BITS>;
+template<std::size_t NUMBER_OF_BITS> static constexpr std::size_t i_const_v = integral_const_t<std::size_t, NUMBER_OF_BITS>::value;
 
 
 template<typename T> using _zero_t = integral_const_t<T, 0>;
@@ -64,8 +64,8 @@ struct is_integer_but_not_zero_t<V,
   typename std::enable_if_t<is_not_same_v<integral_const_t<V, value>, _zero_t<V>>>> : public std::true_type
 {
 };
-template<typename T, std::size_t N>
-static constexpr auto is_integer_but_not_zero_v = is_integer_but_not_zero_t<T, N>::value;
+template<typename T, std::size_t NUMBER_OF_BITS>
+static constexpr auto is_integer_but_not_zero_v = is_integer_but_not_zero_t<T, NUMBER_OF_BITS>::value;
 
 
 template <bool _Cond, class Enabler = void>

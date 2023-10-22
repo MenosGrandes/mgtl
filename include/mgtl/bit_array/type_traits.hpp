@@ -11,32 +11,35 @@ using namespace mgtl::bit_array::constants;
 namespace mgtl::bit_array::type_traits {
 
 
-template<std::size_t N, typename _memory_t, class Enable = void> struct is_same_bite_size_t : public std::false_type
+template<std::size_t NUMBER_OF_BITS, typename _memory_t, class Enable = void>
+struct is_same_bite_size_t : public std::false_type
 {
 };
 
-template<std::size_t N, typename _memory_t>
-struct is_same_bite_size_t<N,
+template<std::size_t NUMBER_OF_BITS, typename _memory_t>
+struct is_same_bite_size_t<NUMBER_OF_BITS,
   _memory_t,
-  typename std::enable_if_t<
-    and_v<is_integer_but_not_zero_t<std::size_t, N>, is_true<std::numeric_limits<_memory_t>::digits == N>>>>
+  typename std::enable_if_t<and_v<is_integer_but_not_zero_t<std::size_t, NUMBER_OF_BITS>,
+    is_true<std::numeric_limits<_memory_t>::digits == NUMBER_OF_BITS>>>> : public std::true_type
+{
+};
+
+template<std::size_t NUMBER_OF_BITS, typename memory_t>
+static constexpr auto is_same_bite_size_v = is_same_bite_size_t<NUMBER_OF_BITS, memory_t>::value;
+
+
+template<std::size_t NUMBER_OF_BITS>
+static constexpr auto is_buildin_v = is_one_of_v<i_const_t<NUMBER_OF_BITS>, _64_t, _32_t, _16_t, _8_t>;
+
+template<std::size_t NUMBER_OF_BITS, class Enable = void> struct is_buildin_size_t : public std::false_type
+{
+};
+
+template<std::size_t NUMBER_OF_BITS>
+struct is_buildin_size_t<NUMBER_OF_BITS, typename std::enable_if_t<is_buildin_v<NUMBER_OF_BITS>>>
   : public std::true_type
 {
 };
 
-template<std::size_t N, typename memory_t>
-static constexpr auto is_same_bite_size_v = is_same_bite_size_t<N, memory_t>::value;
-
-
-template<std::size_t N> static constexpr auto is_buildin_v = is_one_of_v<i_const_t<N>, _64_t, _32_t, _16_t, _8_t>;
-
-template<std::size_t N, class Enable = void> struct is_buildin_size_t : public std::false_type
-{
-};
-
-template<std::size_t N> struct is_buildin_size_t<N, typename std::enable_if_t<is_buildin_v<N>>> : public std::true_type
-{
-};
-
-template<std::size_t N> static constexpr auto is_buildin_size_v = is_buildin_size_t<N>::value;
+template<std::size_t NUMBER_OF_BITS> static constexpr auto is_buildin_size_v = is_buildin_size_t<NUMBER_OF_BITS>::value;
 }// namespace mgtl::bit_array::type_traits
