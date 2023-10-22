@@ -1,8 +1,8 @@
 #include <mgtl/type_traits/type_traits.hpp>
 #pragma once
 
-using namespace mgtl::type_traits;
 namespace mgtl::bit_array::constants {
+using namespace mgtl::type_traits;
 using _64_t = i_const_t<64>;
 using _32_t = i_const_t<32>;
 using _16_t = i_const_t<16>;

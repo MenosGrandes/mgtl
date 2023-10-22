@@ -4,16 +4,18 @@
 #include <cassert>
 #include <iostream>
 #include <limits>
-#include <mgtl/bit_array/bit_array_details.hpp>
-#include <mgtl/bit_array/bit_manipulator.hpp>
+#include <mgtl/bit_array/details/bit_array_same_size.hpp>
+#include <mgtl/bit_array/details/bit_array_different_size.hpp>
 #include <mgtl/bit_array/bit_size.hpp>
+#include <mgtl/bit_array/type_traits.hpp>
 #include <mgtl/bit_array/type_traits.hpp>
 #include <mgtl/type_traits/type_traits.hpp>
 #pragma once
+namespace mgtl::bit_array {
+
 using namespace mgtl::type_traits;
 using namespace mgtl::bit_array::type_traits;
 using namespace mgtl::bit_array::details;
-namespace mgtl::bit_array {
 template<std::size_t NUMBER_OF_BITS, typename memory_t>
 using BitArray = typename std::conditional_t<is_same_bite_size_v<NUMBER_OF_BITS, memory_t>,
   self_configure_size_memory_t_t<NUMBER_OF_BITS, memory_t>,

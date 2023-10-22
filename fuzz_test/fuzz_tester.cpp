@@ -17,6 +17,6 @@
 // cppcheck-suppress unusedFunction symbolName=LLVMFuzzerTestOneInput
 extern "C" int LLVMFuzzerTestOneInput([[maybe_unused]] const uint8_t *Data, [[maybe_unused]] size_t Size)
 {
-//  fmt::print("Value sum: {}, len{}\n", sum_values(Data, Size), Size);
+  //  fmt::print("Value sum: {}, len{}\n", sum_values(Data, Size), Size);
   return 0;
 }

@@ -6,10 +6,10 @@
 
 #pragma once
 
-using namespace mgtl::type_traits;
-using namespace mgtl::bit_array::constants;
 namespace mgtl::bit_array::type_traits {
 
+using namespace mgtl::type_traits;
+using namespace mgtl::bit_array::constants;
 
 template<std::size_t NUMBER_OF_BITS, typename _memory_t, class Enable = void>
 struct is_same_bite_size_t : public std::false_type

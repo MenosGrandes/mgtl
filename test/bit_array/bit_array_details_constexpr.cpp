@@ -3,7 +3,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <limits>
 #include <mgtl/bit_array/bit_array.hpp>
-#include <mgtl/bit_array/bit_array_details.hpp>
+#include <mgtl/bit_array/details/bit_array_same_size.hpp>
+#include <mgtl/bit_array/details/bit_array_same_size.hpp>
 #include <mgtl/bit_array/constants.hpp>
 #include <mgtl/bit_array/type_traits.hpp>
 #include <mgtl/type_traits/type_traits.hpp>
