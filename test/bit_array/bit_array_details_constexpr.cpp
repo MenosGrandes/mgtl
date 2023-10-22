@@ -3,11 +3,16 @@
 #include <catch2/catch_test_macros.hpp>
 #include <limits>
 #include <mgtl/bit_array/bit_array.hpp>
-#include <mgtl/bit_array/details/bit_array_same_size.hpp>
-#include <mgtl/bit_array/details/bit_array_same_size.hpp>
 #include <mgtl/bit_array/constants.hpp>
 #include <mgtl/bit_array/type_traits.hpp>
 #include <mgtl/type_traits/type_traits.hpp>
+
+#include <stdint.h>                                        // for uint8_t
+#include "mgtl/bit_array/bit_manipulator.hpp"              // for mgtl
+#include "mgtl/bit_array/bit_size.hpp"                     // for bite_size
+#include "mgtl/bit_array/details/bit_array_same_size.hpp"  // for BitArray16_t
+
+
 using namespace mgtl;
 using namespace mgtl::type_traits;
 using namespace mgtl::bit_array;

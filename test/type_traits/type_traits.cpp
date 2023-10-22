@@ -2,6 +2,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <mgtl/bit_array/type_traits.hpp>
 #include <mgtl/type_traits/type_traits.hpp>
+#include <mgtl/bit_array/constants.hpp>
 
 
 using namespace mgtl::type_traits;

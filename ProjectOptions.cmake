@@ -44,6 +44,7 @@ macro(mgtl_setup_options)
     option(mgtl_ENABLE_CPPCHECK "Enable cpp-check analysis" OFF)
     option(mgtl_ENABLE_PCH "Enable precompiled headers" OFF)
     option(mgtl_ENABLE_CACHE "Enable ccache" OFF)
+    option(mgtl_ENABLE_IWYS "Enable IncludeWhatYouSee" OFF)
   else()
     option(mgtl_ENABLE_IPO "Enable IPO/LTO" ON)
     option(mgtl_WARNINGS_AS_ERRORS "Treat Warnings As Errors" ON)
@@ -58,6 +59,7 @@ macro(mgtl_setup_options)
     option(mgtl_ENABLE_CPPCHECK "Enable cpp-check analysis" ON)
     option(mgtl_ENABLE_PCH "Enable precompiled headers" OFF)
     option(mgtl_ENABLE_CACHE "Enable ccache" ON)
+    option(mgtl_ENABLE_IWYS "Enable IncludeWhatYouSee" ON)
   endif()
 
   if(NOT PROJECT_IS_TOP_LEVEL)
@@ -75,6 +77,7 @@ macro(mgtl_setup_options)
       mgtl_ENABLE_CPPCHECK
       mgtl_ENABLE_COVERAGE
       mgtl_ENABLE_PCH
+      mgtl_ENABLE_IWYS
       mgtl_ENABLE_CACHE)
   endif()
 
@@ -163,6 +166,10 @@ macro(mgtl_local_options)
   include(cmake/StaticAnalyzers.cmake)
   if(mgtl_ENABLE_CLANG_TIDY)
     mgtl_enable_clang_tidy(mgtl_options ${mgtl_WARNINGS_AS_ERRORS})
+  endif()
+
+  if(mgtl_ENABLE_IWYS)
+    mgtl_enable_include_what_you_use()
   endif()
 
   if(mgtl_ENABLE_CPPCHECK)
