@@ -1,0 +1,51 @@
+- name: CodeChecker Static Analysis
+  # You may pin to the exact commit or the version.
+  # uses: whisperity/CodeChecker-Action@c1fbda08799d91447c007e18db31e423ee37fccd
+  uses: whisperity/CodeChecker-Action@v1.0.4
+  with:
+    # Whether to download, check out, and build a CodeChecker package manually in the CI.
+    install-custom: # default is false
+    # The CodeChecker repository to check out and build from.
+    repository: # default is Ericsson/CodeChecker
+    # The version of the CodeChecker suite to obtain and execute. Might be a Git commit SHA, a branch name, or a tag if building a custom package, or a release version if downloading from PyPI. If "master" and downloading from PyPI, fetch the latest release.
+    version: # default is master
+    # The major version of LLVM to install and use. LLVM is installed from the community PPA at http://apt.llvm.org. The value MUST be a major version (e.g. 13) that is supported by the PPA for the OS used! If "latest", automatically gather the latest version. If "ignore", do not install anything. (Not recommended.)
+    llvm-version: # default is latest
+    # The CodeChecker configuration JSON that contains for each CodeChecker action (analyze, parse, ...) the list of flags that should be appended to the invocation of the command.
+    config: # optional
+    # The location of the JSON Compilation Database for the project. This file describes how the project is compiled, and thus how it should be analysed. Mutually exclusive with "build-command".
+    logfile: # optional
+    # The build command to execute and log for the creation of a JSON Compilation Database. Mutually exclusive with "logfile".
+    build-command: # optional
+    # The output directory where the raw analysis output should be stored. If left the default empty, the path will be generated automatically.
+    analyze-output: # optional, default is 
+    # Whether to enable Cross Translation Unit (CTU) analysis in the Clang Static Analyzer.
+    ctu: # default is false
+    # If set to "true", the "analyze" action will ALWAYS pass, and not report a failure if some analysis jobs fail to execute due to internal crashes in the Clang analysers.
+    ignore-analyze-crashes: # default is true
+    # Whether to perform report conversion from analyses executed by third-party analysers instead of driving the analysis via CodeChecker directly.
+    report-converter: # default is false
+    # The type of the third-party analyser which performed the analysis. Passed to the report converter executable, as a mandatory input parameter.
+    original-analyser: # optional
+    # The location of the analysis data emitted by the third-party analyser. Passed to the report converter executable, as a mandatory input parameter.
+    original-analysis-output: # optional
+    # Whether to enable calculating the different of the current analysis results against a run stored on a CodeChecker server. If enabled, other flags, such as "diff-url" must also be set.
+    diff: # default is false
+    # The CodeChecker product URL (usually in the format of http://example.com/ProductName) where the diff should connect to. Mandatory if "diff" is true.
+    diff-url: # optional
+    # If the server requires authentication, the username to authenticate with.
+    diff-username: # optional
+    # The password (or generated private access token) corresponding to the user.
+    diff-password: # optional
+    # An identifying name of the analysis run. A run usually correlates to a set of configuration, e.g. analysis mode, branch, etc. If left default, the name is automatically generated from the current repository and branch name.
+    diff-run-name: # default is __DEFAULT__
+    # Whether to enable storing the results to a CodeChecker server. If enabled, other flags, such as "store-url" must also be set.
+    store: # default is false
+    # The CodeChecker product URL (usually in the format of http://example.com/ProductName) where the store should connect to. Mandatory if "store" is true.
+    store-url: # optional
+    # If the server requires authentication, the username to authenticate with.
+    store-username: # optional
+    # The password (or generated private access token) corresponding to the user.
+    store-password: # optional
+    # An identifying name of the analysis run. A run usually correlates to a set of configuration, e.g. analysis mode, branch, etc. If left default, the name is automatically generated from the current repository and branch name.
+    store-run-name: # default is __DEFAULT__
