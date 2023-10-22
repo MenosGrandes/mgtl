@@ -22,8 +22,6 @@ jobs:
       fail-fast: false
       matrix:
         language: [ 'cpp' ]
-        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
-        # Learn more about CodeQL language support at https://git.io/codeql-language-support
         compiler:
           # you can specify the version after `-` like "llvm-13.0.0".
           - gcc-11
@@ -78,7 +76,7 @@ jobs:
     - uses: whisperity/codechecker-analysis-action@v1
       id: codechecker
       with:
-        logfile: ${{ github.workspace }}/Build/compile_commands.json
+        logfile: ${{ github.workspace }}/build/compile_commands.json
 
     # Upload the results to the CI.
     - uses: actions/upload-artifact@v2
