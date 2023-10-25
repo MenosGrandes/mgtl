@@ -39,5 +39,8 @@ function(mgtl_setup_dependencies)
   if(NOT TARGET tools::tools)
     cpmaddpackage("gh:lefticus/tools#update_build_system")
   endif()
+  if(NOT TARGET bench::nanobench)
+    cpmaddpackage("gh:martinus/nanobench@4.3.11")
+  endif()
 
 endfunction()

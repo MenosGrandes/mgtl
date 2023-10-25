@@ -74,6 +74,17 @@ if(BUILD_TESTING)
 endif()
 
 
+
+
+
+message(AUTHOR_WARNING "Building BENCHMARKS!")
+  add_subdirectory(benchmarks)
+
+
+
+
+
+
 if(mgtl_BUILD_FUZZ_TESTS)
   message(AUTHOR_WARNING "Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
   if (NOT mgtl_ENABLE_ADDRESS_SANITIZER AND NOT mgtl_ENABLE_THREAD_SANITIZER)
