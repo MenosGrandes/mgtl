@@ -101,7 +101,7 @@ macro(mgtl_enable_clang_tidy target WARNINGS_AS_ERRORS)
 endmacro()
 
 macro(mgtl_enable_include_what_you_use)
-  find_program(INCLUDE_WHAT_YOU_USE include-what-you-use VALIDATOR find_program_validator)
+  find_program(INCLUDE_WHAT_YOU_USE include-what-you-use)
   if(INCLUDE_WHAT_YOU_USE)
     message(STATUS "Enable include-what-you-use : ${INCLUDE_WHAT_YOU_USE}")
     set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${INCLUDE_WHAT_YOU_USE})
