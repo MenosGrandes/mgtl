@@ -26,6 +26,7 @@ namespace manipulator {
     {
       return static_cast<bool>((_data >> bit) & static_cast<memory_t>(1));
     }
+    constexpr static memory_t popcount(memory_t _data) { return static_cast<memory_t>(__builtin_popcount(_data)); }
   };
 }// namespace manipulator
 }// namespace mgtl

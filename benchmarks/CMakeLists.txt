@@ -17,4 +17,5 @@ endif()
 
 # ---- Dependencies ----
 include(${CMAKE_SOURCE_DIR}/cmake_base/benchmark.cmake)
-AddBenchmark(bit_array_benchmark SOURCES bench.cpp)
+AddBenchmark(bit_array_t_popcount SOURCES bit_array_t_popcount.cpp)
+AddBenchmark(bit_set_count_std SOURCES bit_set_count_std.cpp)

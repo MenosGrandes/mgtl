@@ -26,3 +26,9 @@ TEMPLATE_TEST_CASE("BitArray set test", "[tag]", TEST_TYPES)
     REQUIRE(test_bit_array.get(i) == false);
   }
 }
+
+TEST_CASE("BitArray popcount" , "[tag]")
+{
+  BitArray8_t bitArray;
+  REQUIRE(bitArray.popcount() == 0);
+}

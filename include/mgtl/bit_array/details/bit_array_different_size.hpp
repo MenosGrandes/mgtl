@@ -62,6 +62,16 @@ public:
     auto [index, element] = get_element(bit);
     this->_data[index] = base_1::BitManipulatorImpl::clear(element, std::move(this->_data[index]));
   }
+  constexpr auto popcount()
+  {
+    memory_t counter{0};
+    for (auto i : _data)
+    {
+      counter+=base_1::BitManipulatorImpl::popcount(i);
+    }
+    return counter;
+
+  }
 };
 
 

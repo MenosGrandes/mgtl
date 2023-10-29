@@ -13,16 +13,15 @@ function(AddBenchmark targetName)
     message(FATAL_ERROR "[AddTest]: SOURCES requires at least one value")
   endif()
 
-  ################
-  TestBase()
 
   add_executable(${targetName} ${arg_SOURCES})
   target_link_libraries(
     ${targetName}
-    #PRIVATE mgtl::mgtl_warnings
-    #mgtl::mgtl_options
+    PRIVATE mgtl::mgtl_warnings
+    mgtl::mgtl_options
     mgtl::sample_library
     nanobench)
+  target_compile_options(${targetName} PUBLIC -S)
   #[[
   if(WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(
@@ -33,5 +32,6 @@ function(AddBenchmark targetName)
   endif()
 
   #]]
+
 endfunction()
 
