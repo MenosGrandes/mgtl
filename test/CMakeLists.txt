@@ -7,7 +7,7 @@ project(CmakeConfigPackageTests LANGUAGES CXX)
 if(PROJECT_IS_TOP_LEVEL OR TEST_INSTALLED_VERSION)
   enable_testing()
 
-  find_package(mgtl CONFIG REQUIRED) # for intro, project_options, ...
+  find_package(mgtl CONFIG REQUIRED) # project_options, ...
 
   if(NOT TARGET mgtl_options)
     message(FATAL_ERROR "Requiered config package not found!")

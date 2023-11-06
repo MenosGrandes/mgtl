@@ -1,8 +1,7 @@
-#include <stdint.h>
 #include <catch2/catch_test_macros.hpp>
+#include <cstdint>
 #include <mgtl/bit_array/bit_array.hpp>
 #include <mgtl/bit_array/details/bit_array_same_size.hpp>
-#include <mgtl/bit_array/constants.hpp>
 
 using namespace mgtl::bit_array;
 
@@ -13,22 +12,21 @@ using namespace mgtl::bit_array;
     (BitArray<16, uint16_t>), (BitArray<8, uint8_t>), (BitArray<12, uint8_t>), (BitArray<441, uint64_t>),    \
     (BitArray<223, uint8_t>)
 
-TEMPLATE_TEST_CASE("BitArray set test", "[tag]", TEST_TYPES)
+TEMPLATE_TEST_CASE("BitArray set test", "[tag]", TEST_TYPES)// NOLINT
 {
-
   using BitArrayT = TestType;
   BitArrayT test_bit_array;
   for (typename BitArrayT::base::memory_t i = 0; i < BitArrayT::size(); i++) {
-    REQUIRE(test_bit_array.get(i) == false);
+    REQUIRE(test_bit_array.get(i) == false);// NOLINT
     test_bit_array.set(i);
-    REQUIRE(test_bit_array.get(i) == true);
+    REQUIRE(test_bit_array.get(i) == true);// NOLINT
     test_bit_array.clear(i);
-    REQUIRE(test_bit_array.get(i) == false);
+    REQUIRE(test_bit_array.get(i) == false); // NOLINT
   }
 }
 
-TEST_CASE("BitArray popcount" , "[tag]")
+TEST_CASE("BitArray popcount", "[tag]")// NOLINT
 {
   BitArray8_t bitArray;
-  REQUIRE(bitArray.popcount() == 0);
+  REQUIRE(bitArray.popcount() == 0); // NOLINT
 }

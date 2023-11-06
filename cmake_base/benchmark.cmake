@@ -21,7 +21,6 @@ function(AddBenchmark targetName)
     mgtl::mgtl_options
     mgtl::sample_library
     nanobench)
-  target_compile_options(${targetName} PUBLIC -S)
   #[[
   if(WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(

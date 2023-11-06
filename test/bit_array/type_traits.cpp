@@ -5,7 +5,7 @@
 using namespace mgtl::type_traits;
 using namespace mgtl::bit_array::constants;
 
-
+// NOLINTNEXTLINE
 TEST_CASE("is_one_of_v", "[tag]")
 {
   STATIC_REQUIRE(is_one_of_v<_16_t, _16_t> == is_true_v);

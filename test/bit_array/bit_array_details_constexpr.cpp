@@ -3,14 +3,10 @@
 #include <catch2/catch_test_macros.hpp>
 #include <limits>
 #include <mgtl/bit_array/bit_array.hpp>
-#include <mgtl/bit_array/constants.hpp>
-#include <mgtl/bit_array/type_traits.hpp>
 #include <mgtl/type_traits/type_traits.hpp>
+#include <mgtl/bit_array/details/bit_array_same_size.hpp>
 
-#include <stdint.h>                                        // for uint8_t
-#include "mgtl/bit_array/bit_manipulator.hpp"              // for mgtl
-#include "mgtl/bit_array/bit_size.hpp"                     // for bite_size
-#include "mgtl/bit_array/details/bit_array_same_size.hpp"  // for BitArray16_t
+#include <cstdint>                                        // for uint8_t
 
 
 using namespace mgtl;
@@ -33,6 +29,8 @@ using namespace mgtl::bit_array::constants;
 #define TEST_TYPES_I_CONST_DIFF_SIZE_2                                                              \
   (integral_const_t<uint8_t, 3>), (integral_const_t<uint8_t, 2>), (integral_const_t<uint16_t, 80>), \
     (integral_const_t<uint32_t, 80>), (integral_const_t<uint64_t, 325>)
+
+// NOLINTNEXTLINE
 TEMPLATE_TEST_CASE("memory_t same size types, explicit", "[tag]", TEST_TYPES)
 {
   using BitArray = TestType;
@@ -62,6 +60,7 @@ TEMPLATE_TEST_CASE("memory_t same size types, explicit", "[tag]", TEST_TYPES)
   STATIC_REQUIRE(BitArray::number_of_bites_v == NUMBER_OF_BITS);
 }
 
+// NOLINTNEXTLINE
 TEMPLATE_TEST_CASE("memory_t size types, implicit from integral constant",
   "[tag]",
   TEST_TYPES_I_CONST_SAME_SIZE,
@@ -94,6 +93,7 @@ TEMPLATE_TEST_CASE("memory_t size types, implicit from integral constant",
   STATIC_REQUIRE(BitArray::base_2::number_of_bites_v == BitArray::number_of_bites_v);
 }
 
+// NOLINTNEXTLINE
 TEMPLATE_TEST_CASE("memory_size_rest_v && memory_size_rounded_up_v ",
   "[tag]",
   TEST_TYPES_I_CONST_DIFF_SIZE,
