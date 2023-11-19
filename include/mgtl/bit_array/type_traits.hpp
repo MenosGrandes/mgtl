@@ -42,4 +42,7 @@ struct is_buildin_size_t<NUMBER_OF_BITS, typename std::enable_if_t<is_buildin_v<
 };
 
 template<std::size_t NUMBER_OF_BITS> static constexpr auto is_buildin_size_v = is_buildin_size_t<NUMBER_OF_BITS>::value;
+
+
+
 }// namespace mgtl::bit_array::type_traits

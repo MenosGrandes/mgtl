@@ -1,5 +1,6 @@
 #include <functional>
 #include <type_traits>
+#include <limits>
 
 #pragma once
 
@@ -82,4 +83,10 @@ struct  is_false: std::false_type{};
 template <bool _Cond>
 struct is_false<_Cond, std::enable_if_t<!_Cond>> : std::true_type{};
 
+
+template<typename T>
+static constexpr auto digits_v =  std::numeric_limits<T>::digits;
+constexpr auto _digits_u = digits_v<unsigned>;
+constexpr auto _digits_l = digits_v<unsigned long>;
+constexpr auto _digits_ll = digits_v<unsigned long long>;
 }

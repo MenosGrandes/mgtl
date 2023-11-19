@@ -26,10 +26,8 @@ class _BitArrayBase_Array_t : public base::_BitArrayBase_t<NUMBER_OF_BITS, memor
   }
   constexpr auto get_element(memory_t bit) -> std::tuple<memory_t, memory_t>
   {
-
     const auto index = static_cast<memory_t>(bit / base_1::memory_t_digits);
     const memory_t element = static_cast<memory_t>((bit + base_1::memory_t_digits * index) % base_1::memory_t_digits);
-
     return { index, element };
   }
 
@@ -48,7 +46,6 @@ public:
 
   constexpr void set(memory_t bit)
   {
-
     auto [index, element] = get_element(bit);
     this->_data[index] = base_1::BitManipulatorImpl::set(element, std::move(this->_data[index]));
   }
@@ -57,6 +54,7 @@ public:
     auto [index, element] = get_element(bit);
     return base_1::BitManipulatorImpl::get(element, std::move(this->_data[index]));
   }
+  constexpr auto operator[](memory_t bit) -> bool { return get(bit); }
   constexpr auto clear(memory_t bit) -> void
   {
     auto [index, element] = get_element(bit);
@@ -64,13 +62,10 @@ public:
   }
   constexpr auto popcount()
   {
-    memory_t counter{0};
-    for (auto i : _data)
-    {
-      counter+=base_1::BitManipulatorImpl::popcount(i);
-    }
+    //MenosGrandes std::accumulate?
+    unsigned int counter{ 0 };
+    for (auto i : _data) { counter += base_1::BitManipulatorImpl::popcount(i); }
     return counter;
-
   }
 };
 

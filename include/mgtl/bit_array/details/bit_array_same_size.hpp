@@ -32,7 +32,8 @@ public:
   constexpr void set(memory_t bit) { this->_data = base_1::BitManipulatorImpl::set(bit, std::move(this->_data)); }
   constexpr void clear(memory_t bit) { this->_data = base_1::BitManipulatorImpl::clear(bit, std::move(this->_data)); }
   constexpr bool get(memory_t bit) { return base_1::BitManipulatorImpl::get(bit, std::move(this->_data)); }
-  constexpr  memory_t popcount() { return base_1::BitManipulatorImpl::popcount(std::move(this->_data)); }
+  constexpr auto operator[](memory_t bit) -> bool { return get(bit); }
+  constexpr auto popcount() { return base_1::BitManipulatorImpl::popcount(std::move(this->_data)); }
 };
 
 using BitArray64_t = _BitArrayBase_SameSize_t<_64, uint64_t>;

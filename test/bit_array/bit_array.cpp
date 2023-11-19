@@ -16,17 +16,24 @@ TEMPLATE_TEST_CASE("BitArray set test", "[tag]", TEST_TYPES)// NOLINT
 {
   using BitArrayT = TestType;
   BitArrayT test_bit_array;
-  for (typename BitArrayT::base::memory_t i = 0; i < BitArrayT::size(); i++) {
-    REQUIRE(test_bit_array.get(i) == false);// NOLINT
-    test_bit_array.set(i);
-    REQUIRE(test_bit_array.get(i) == true);// NOLINT
-    test_bit_array.clear(i);
+  for (typename TestType::memory_t i = 0; i < BitArrayT::size(); i++) {
     REQUIRE(test_bit_array.get(i) == false); // NOLINT
+    REQUIRE(test_bit_array[i] == false); // NOLINT
+    test_bit_array.set(i);
+    REQUIRE(test_bit_array.get(i) == true); // NOLINT
+    REQUIRE(test_bit_array[i] == true);// NOLINT
+    test_bit_array.clear(i);
+    REQUIRE(test_bit_array[i] == false);// NOLINT
   }
 }
 
-TEST_CASE("BitArray popcount", "[tag]")// NOLINT
+TEMPLATE_TEST_CASE("BitArray popcount", "[tag]", TEST_TYPES)// NOLINT
 {
-  BitArray8_t bitArray;
-  REQUIRE(bitArray.popcount() == 0); // NOLINT
+  using BitArrayT = TestType;
+  BitArrayT test_bit_array;
+  for (typename TestType::memory_t i = 0; i < BitArrayT::size(); i++) {
+    test_bit_array.set(i);
+    REQUIRE(test_bit_array.popcount() == static_cast<typename TestType::memory_t>(i+1));// NOLINT
+  }
 }
+
