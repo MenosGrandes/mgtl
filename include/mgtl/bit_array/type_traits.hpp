@@ -20,7 +20,7 @@ template<std::size_t NUMBER_OF_BITS, typename _memory_t>
 struct is_same_bite_size_t<NUMBER_OF_BITS,
   _memory_t,
   typename std::enable_if_t<and_v<is_integer_but_not_zero_t<std::size_t, NUMBER_OF_BITS>,
-    is_true<std::numeric_limits<_memory_t>::digits == NUMBER_OF_BITS>>>> : public std::true_type
+    is_true_t<std::numeric_limits<_memory_t>::digits == NUMBER_OF_BITS>>>> : public std::true_type
 {
 };
 

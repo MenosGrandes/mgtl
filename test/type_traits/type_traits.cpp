@@ -12,18 +12,25 @@ using namespace mgtl::bit_array::type_traits;
 // NOLINTNEXTLINE
 TEST_CASE("is_buildin_v", "[tag]")
 {
-  STATIC_REQUIRE(is_buildin_v<_8> == is_true_v);
-  STATIC_REQUIRE(is_buildin_v<_16> == is_true_v);
-  STATIC_REQUIRE(is_buildin_v<_32> == is_true_v);
-  STATIC_REQUIRE(is_buildin_v<_64> == is_true_v);
-  STATIC_REQUIRE(is_buildin_v<i_const_v<234>> == is_false_v);
+  STATIC_REQUIRE(is_buildin_v<_8> == true_v);
+  STATIC_REQUIRE(is_buildin_v<_16> == true_v);
+  STATIC_REQUIRE(is_buildin_v<_32> == true_v);
+  STATIC_REQUIRE(is_buildin_v<_64> == true_v);
+  STATIC_REQUIRE(is_buildin_v<i_const_v<234>> == false_v);
 }
 
 // NOLINTNEXTLINE
 TEST_CASE("is_buildin_size_v", "[tag]")
 {
-  STATIC_REQUIRE(is_buildin_size_v<_32> == is_true_v);
-  STATIC_REQUIRE(is_buildin_size_v<_64> == is_true_v);
-  STATIC_REQUIRE(is_buildin_size_v<_8> == is_true_v);
-  STATIC_REQUIRE(is_buildin_size_v<_16> == is_true_v);
+  STATIC_REQUIRE(is_buildin_size_v<_32> == true_v);
+  STATIC_REQUIRE(is_buildin_size_v<_64> == true_v);
+  STATIC_REQUIRE(is_buildin_size_v<_8> == true_v);
+  STATIC_REQUIRE(is_buildin_size_v<_16> == true_v);
+}
+
+// NOLINTNEXTLINE
+TEST_CASE("is_less_v", "[tag]")
+{
+  STATIC_REQUIRE(is_less_v<_32_t, _16_t> == false_v);
+  STATIC_REQUIRE(is_less_v<_16_t, _32_t> == true_v);
 }
