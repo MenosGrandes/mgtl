@@ -5,6 +5,7 @@
 #include <mgtl/bit_array/bit_array.hpp>
 #include <mgtl/type_traits/type_traits.hpp>
 #include <mgtl/bit_array/details/bit_array_same_size.hpp>
+#include <mgtl/bit_array/details/bit_array_layer.hpp>
 
 #include <cstdint>                                        // for uint8_t
 
@@ -29,6 +30,8 @@ using namespace mgtl::bit_array::constants;
 #define TEST_TYPES_I_CONST_DIFF_SIZE_2                                                              \
   (integral_const_t<uint8_t, 3>), (integral_const_t<uint8_t, 2>), (integral_const_t<uint16_t, 80>), \
     (integral_const_t<uint32_t, 80>), (integral_const_t<uint64_t, 325>)
+
+#define LAYERS_TYPES (BitArrayWithLayers<64, uint64_t>)
 
 // NOLINTNEXTLINE
 TEMPLATE_TEST_CASE("memory_t same size types, explicit", "[tag]", TEST_TYPES)
@@ -116,4 +119,34 @@ TEMPLATE_TEST_CASE("memory_size_rest_v && memory_size_rounded_up_v ",
   STATIC_REQUIRE(BitArray::memory_size_rounded_up_v == MEMORY_T_SIZE_WHOLE_V + 1);
   STATIC_REQUIRE(BitArray::base_1::memory_size_rounded_up_v == BitArray::memory_size_rounded_up_v);
   STATIC_REQUIRE(BitArray::base_2::memory_size_rounded_up_v == BitArray::memory_size_rounded_up_v);
+}
+
+// NOLINTNEXTLINE
+TEMPLATE_TEST_CASE("layer bit_array", "[tag]", LAYERS_TYPES)
+{
+  using BitArray = TestType;
+  static constexpr auto NUMBER_OF_BITS = BitArray::number_of_bites_v;
+  using memory_t = typename BitArray::memory_t;
+
+  STATIC_REQUIRE(BitArray::memory_t_digits == NUMBER_OF_BITS);
+
+  STATIC_REQUIRE(std::is_same_v<typename BitArray::base::memory_t, typename BitArray::memory_t>);
+  STATIC_REQUIRE(std::is_same_v<typename BitArray::base_1::memory_t, typename BitArray::memory_t>);
+  STATIC_REQUIRE(std::is_same_v<typename BitArray::base_2::memory_t, typename BitArray::memory_t>);
+  STATIC_REQUIRE(std::is_same_v<typename BitArray::memory_t, memory_t>);
+
+  STATIC_REQUIRE(BitArray::base_1::base::memory_t_digits == std::numeric_limits<memory_t>::digits);
+  STATIC_REQUIRE(BitArray::base_1::memory_t_digits == BitArray::memory_t_digits);
+  STATIC_REQUIRE(BitArray::base_1::memory_t_digits == BitArray::base::memory_t_digits);
+  STATIC_REQUIRE(BitArray::base_1::memory_t_digits == BitArray::base_2::memory_t_digits);
+
+  STATIC_REQUIRE(BitArray::base::memory_size_whole_v == BitArray::memory_size_whole_v);
+  STATIC_REQUIRE(BitArray::base_1::memory_size_whole_v == BitArray::memory_size_whole_v);
+  STATIC_REQUIRE(BitArray::base_2::memory_size_whole_v == BitArray::memory_size_whole_v);
+  STATIC_REQUIRE(BitArray::memory_size_whole_v == 1);
+
+  STATIC_REQUIRE(BitArray::base::number_of_bites_v == BitArray::number_of_bites_v);
+  STATIC_REQUIRE(BitArray::base_1::number_of_bites_v == BitArray::number_of_bites_v);
+  STATIC_REQUIRE(BitArray::base_2::number_of_bites_v == BitArray::number_of_bites_v);
+  STATIC_REQUIRE(BitArray::number_of_bites_v == NUMBER_OF_BITS);
 }

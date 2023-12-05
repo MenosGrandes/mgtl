@@ -17,7 +17,7 @@ using namespace mgtl::type_traits;
 
 
 template<std::size_t NUMBER_OF_BITS, typename memory_t = uint8_t>
-class _BitArrayBase_Array_t : public base::_BitArrayBase_t<NUMBER_OF_BITS, memory_t>
+class _BitArrayDifferentSize_t : public base::_BitArrayBase_t<NUMBER_OF_BITS, memory_t>
 {
 
   constexpr auto fill() -> void
@@ -39,9 +39,9 @@ public:
 
 
   template<std::size_t _NUMBER_OF_BITS, typename _memory_t>
-  friend std::ostream &operator<<(std::ostream &, const _BitArrayBase_Array_t<_NUMBER_OF_BITS, _memory_t> &);
+  friend std::ostream &operator<<(std::ostream &, const _BitArrayDifferentSize_t<_NUMBER_OF_BITS, _memory_t> &);
 
-  constexpr explicit _BitArrayBase_Array_t() { fill(); };
+  constexpr explicit _BitArrayDifferentSize_t() { fill(); };
   alignas(memory_t) raw_memory_t _data;
 
   constexpr void set(memory_t bit)
