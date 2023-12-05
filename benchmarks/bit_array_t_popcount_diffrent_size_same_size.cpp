@@ -37,9 +37,10 @@ void run_benchmark_same_size(ankerl::nanobench::Bench *bench, char const *name)
 
 int main()
 {
-  constexpr auto WARMUP{ 200 };
+  constexpr auto WARMUP{ 50};
+  constexpr auto MIN_EPOCH{ 1000};
   {
-  constexpr auto SIZE{ 128 };
+    constexpr auto SIZE{ 128 };
     ankerl::nanobench::Bench bench_v;
     bench_v.title("BitArray set").unit("128").warmup(WARMUP).relative(true);
     bench_v.performanceCounters(true);
@@ -50,20 +51,19 @@ int main()
     run_benchmark_different_size<SIZE, uint64_t>(&bench_v, "BitArrayDifferentSize uint64 set");
   }
   {
-  constexpr auto SIZE{ 64 };
+    constexpr auto SIZE{ 64 };
     ankerl::nanobench::Bench bench_v;
-    bench_v.title("BitArray set").unit("64").warmup(WARMUP).relative(true);
+    bench_v.title("BitArray set").unit("64").warmup(WARMUP).relative(true).minEpochIterations(MIN_EPOCH);
     bench_v.performanceCounters(true);
 
     run_benchmark_different_size<SIZE, uint8_t>(&bench_v, "BitArrayDifferentSize  uint8 set");
     run_benchmark_different_size<SIZE, uint16_t>(&bench_v, "BitArrayDifferentSize  uint16 set");
     run_benchmark_different_size<SIZE, uint32_t>(&bench_v, "BitArrayDifferentSize  uint32 set");
     run_benchmark_same_size<SIZE, uint64_t>(&bench_v, "BitArraySameSize  uint64 set");
-  }
-  {
-  constexpr auto SIZE{  320 };
+  }{
+    constexpr auto SIZE{ 192 };
     ankerl::nanobench::Bench bench_v;
-    bench_v.title("BitArray set").unit("320").warmup(WARMUP).relative(true);
+    bench_v.title("BitArray set").unit("192").warmup(WARMUP).relative(true).minEpochIterations(MIN_EPOCH);
     bench_v.performanceCounters(true);
 
     run_benchmark_different_size<SIZE, uint8_t>(&bench_v, "BitArrayDifferentSize  uint8 set");
@@ -72,9 +72,9 @@ int main()
     run_benchmark_different_size<SIZE, uint64_t>(&bench_v, "BitArrayDifferentSize uint64 set");
   }
   {
-  constexpr auto SIZE{ 640};
+    constexpr auto SIZE{ 320 };
     ankerl::nanobench::Bench bench_v;
-    bench_v.title("BitArray set").unit("640").warmup(WARMUP).relative(true);
+    bench_v.title("BitArray set").unit("320").warmup(WARMUP).relative(true).minEpochIterations(MIN_EPOCH);
     bench_v.performanceCounters(true);
 
     run_benchmark_different_size<SIZE, uint8_t>(&bench_v, "BitArrayDifferentSize  uint8 set");
@@ -83,9 +83,9 @@ int main()
     run_benchmark_different_size<SIZE, uint64_t>(&bench_v, "BitArrayDifferentSize uint64 set");
   }
   {
-  constexpr auto SIZE{ 960 };
+    constexpr auto SIZE{ 640 };
     ankerl::nanobench::Bench bench_v;
-    bench_v.title("BitArray set").unit("960").warmup(WARMUP).relative(true);
+    bench_v.title("BitArray set").unit("640").warmup(WARMUP).relative(true).minEpochIterations(MIN_EPOCH);
     bench_v.performanceCounters(true);
 
     run_benchmark_different_size<SIZE, uint8_t>(&bench_v, "BitArrayDifferentSize  uint8 set");
@@ -94,9 +94,20 @@ int main()
     run_benchmark_different_size<SIZE, uint64_t>(&bench_v, "BitArrayDifferentSize uint64 set");
   }
   {
-  constexpr auto SIZE{ 1280 };
+    constexpr auto SIZE{ 960 };
     ankerl::nanobench::Bench bench_v;
-    bench_v.title("BitArray set").unit("1280").warmup(WARMUP).relative(true);
+    bench_v.title("BitArray set").unit("960").warmup(WARMUP).relative(true).minEpochIterations(MIN_EPOCH);
+    bench_v.performanceCounters(true);
+
+    run_benchmark_different_size<SIZE, uint8_t>(&bench_v, "BitArrayDifferentSize  uint8 set");
+    run_benchmark_different_size<SIZE, uint16_t>(&bench_v, "BitArrayDifferentSize  uint16 set");
+    run_benchmark_different_size<SIZE, uint32_t>(&bench_v, "BitArrayDifferentSize  uint32 set");
+    run_benchmark_different_size<SIZE, uint64_t>(&bench_v, "BitArrayDifferentSize uint64 set");
+  }
+  {
+    constexpr auto SIZE{ 1280 };
+    ankerl::nanobench::Bench bench_v;
+    bench_v.title("BitArray set").unit("1280").warmup(WARMUP).relative(true).minEpochIterations(MIN_EPOCH);
     bench_v.performanceCounters(true);
 
     run_benchmark_different_size<SIZE, uint8_t>(&bench_v, "BitArrayDifferentSize  uint8 set");

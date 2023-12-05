@@ -20,7 +20,7 @@ namespace base {
   {
     using bite_size_base = bite_size::bite_size<NUMBER_OF_BITS, memory_t>;
     using BitManipulatorImpl = manipulator::BitManipulator<memory_t>;
-    constexpr static memory_t size() { return bite_size_base::base::number_of_bites_v; }
+    constexpr static typename bite_size_base::size_type size() { return bite_size_base::base::number_of_bites_v; }
   };
 }// namespace base
 

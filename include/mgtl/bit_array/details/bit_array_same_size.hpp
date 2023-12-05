@@ -22,6 +22,7 @@ class _BitArrayBase_SameSize_t : public base::_BitArrayBase_t<NUMBER_OF_BITS, me
 public:
   using base_1 = typename base::_BitArrayBase_t<NUMBER_OF_BITS, memory_t>;
   using base_2 = typename base_1::bite_size_base;
+  using size_type = typename base_1::bite_size_base::size_type;
   using base_1::size;
   using raw_memory_t = memory_t;
 
@@ -29,10 +30,10 @@ public:
   friend std::ostream &operator<<(std::ostream &, const _BitArrayBase_SameSize_t<_NUMBER_OF_BITS, _memory_t> &);
   alignas(raw_memory_t) raw_memory_t _data{};
 
-  constexpr void set(memory_t bit) { this->_data = base_1::BitManipulatorImpl::set(bit, std::move(this->_data)); }
-  constexpr void clear(memory_t bit) { this->_data = base_1::BitManipulatorImpl::clear(bit, std::move(this->_data)); }
-  constexpr bool get(memory_t bit) { return base_1::BitManipulatorImpl::get(bit, std::move(this->_data)); }
-  constexpr auto operator[](memory_t bit) -> bool { return get(bit); }
+  constexpr void set(size_type bit) { this->_data = base_1::BitManipulatorImpl::set(bit, std::move(this->_data)); }
+  constexpr void clear(size_type bit) { this->_data = base_1::BitManipulatorImpl::clear(bit, std::move(this->_data)); }
+  constexpr bool get(size_type bit) { return base_1::BitManipulatorImpl::get(bit, std::move(this->_data)); }
+  constexpr auto operator[](size_type bit) -> bool { return get(bit); }
   constexpr auto popcount() { return base_1::BitManipulatorImpl::popcount(std::move(this->_data)); }
 };
 

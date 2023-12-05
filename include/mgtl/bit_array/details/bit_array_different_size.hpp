@@ -20,20 +20,11 @@ template<std::size_t NUMBER_OF_BITS, typename memory_t = uint8_t>
 class _BitArrayDifferentSize_t : public base::_BitArrayBase_t<NUMBER_OF_BITS, memory_t>
 {
 
-  constexpr auto fill() -> void
-  {
-    for (typename decltype(_data)::size_type i = 0; i < this->_data.size(); i++) { _data[i] = memory_t{}; }
-  }
-  constexpr auto get_element(memory_t bit) -> std::tuple<memory_t, memory_t>
-  {
-    const auto index = static_cast<memory_t>(bit / base_1::memory_t_digits);
-    const memory_t element = static_cast<memory_t>((bit + base_1::memory_t_digits * index) % base_1::memory_t_digits);
-    return { index, element };
-  }
 
 public:
   using base_1 = typename base::_BitArrayBase_t<NUMBER_OF_BITS, memory_t>;
   using base_2 = typename base_1::bite_size_base;
+  using size_type = typename base_1::bite_size_base::size_type;
   using base_1::size;
   using raw_memory_t = std::array<memory_t, base_2::memory_size_rounded_up_v>;
 
@@ -44,28 +35,40 @@ public:
   constexpr explicit _BitArrayDifferentSize_t() { fill(); };
   alignas(memory_t) raw_memory_t _data;
 
-  constexpr void set(memory_t bit)
+  constexpr void set(size_type bit)
   {
     auto [index, element] = get_element(bit);
     this->_data[index] = base_1::BitManipulatorImpl::set(element, std::move(this->_data[index]));
   }
-  constexpr auto get(memory_t bit) -> bool
+  constexpr auto get(size_type bit) -> bool
   {
     auto [index, element] = get_element(bit);
     return base_1::BitManipulatorImpl::get(element, std::move(this->_data[index]));
   }
-  constexpr auto operator[](memory_t bit) -> bool { return get(bit); }
-  constexpr auto clear(memory_t bit) -> void
+  constexpr auto operator[](size_type bit) -> bool { return get(bit); }
+  constexpr auto clear(size_type bit) -> void
   {
     auto [index, element] = get_element(bit);
     this->_data[index] = base_1::BitManipulatorImpl::clear(element, std::move(this->_data[index]));
   }
   constexpr auto popcount()
   {
-    //MenosGrandes std::accumulate?
+    // MenosGrandes std::accumulate?
     unsigned int counter{ 0 };
     for (auto i : _data) { counter += base_1::BitManipulatorImpl::popcount(i); }
     return counter;
+  }
+
+private:
+  constexpr auto fill() -> void
+  {
+    for (size_type i = 0; i < this->_data.size(); ++i) { _data[i] = memory_t{}; }
+  }
+  static constexpr auto get_element(size_type bit) -> std::tuple<memory_t, size_type>
+  {
+    const size_type index = static_cast<memory_t>(bit / base_1::memory_t_digits);
+    const size_type element = static_cast<size_type>((bit + base_1::memory_t_digits * index) % base_1::memory_t_digits);
+    return { index, element };
   }
 };
 
