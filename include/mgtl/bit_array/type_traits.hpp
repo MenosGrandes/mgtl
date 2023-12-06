@@ -6,10 +6,10 @@
 
 #pragma once
 
-namespace mgtl::bit_array::type_traits {
-
 using namespace mgtl::type_traits;
 using namespace mgtl::bit_array::constants;
+namespace mgtl::bit_array::type_traits {
+
 
 template<std::size_t NUMBER_OF_BITS, typename _memory_t, class Enable = void>
 struct is_same_bite_size_t : public std::false_type
@@ -42,7 +42,6 @@ struct is_buildin_size_t<NUMBER_OF_BITS, typename std::enable_if_t<is_buildin_v<
 };
 
 template<std::size_t NUMBER_OF_BITS> static constexpr auto is_buildin_size_v = is_buildin_size_t<NUMBER_OF_BITS>::value;
-
 
 
 }// namespace mgtl::bit_array::type_traits

@@ -4,14 +4,17 @@
  *
  * */
 #include <limits>
+#include <mgtl/bit_array/bit_size.hpp>
 #include <mgtl/functional/functional.hpp>
 #include <mgtl/type_traits/type_traits.hpp>
 #pragma once
 
 using namespace mgtl::functional;
 using namespace mgtl::type_traits;
+using mgtl::bit_array::bite_size::size_type;
 
 
+namespace mgtl::bit_array {
 struct PopCount
 {
   template<typename memory_t> constexpr static unsigned int popcount(memory_t bits)
@@ -29,3 +32,4 @@ struct PopCount
     }
   }
 };
+}// namespace mgtl::bit_array

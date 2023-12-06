@@ -12,8 +12,9 @@
 
 #pragma once
 
-namespace mgtl::bit_array::details {
 using namespace mgtl::type_traits;
+using mgtl::bit_array::bite_size::size_type;
+namespace mgtl::bit_array::details {
 
 
 template<std::size_t NUMBER_OF_BITS, typename memory_t = uint8_t>
@@ -24,8 +25,6 @@ class _BitArrayDifferentSize_t : public base::_BitArrayBase_t<NUMBER_OF_BITS, me
 public:
   using base_1 = typename base::_BitArrayBase_t<NUMBER_OF_BITS, memory_t>;
   using base_2 = typename base_1::bite_size_base;
-  using size_type = typename base_1::bite_size_base::size_type;
-  using base_1::size;
   using raw_memory_t = std::array<memory_t, base_2::memory_size_rounded_up_v>;
 
 
@@ -33,7 +32,6 @@ public:
   friend std::ostream &operator<<(std::ostream &, const _BitArrayDifferentSize_t<_NUMBER_OF_BITS, _memory_t> &);
 
   constexpr explicit _BitArrayDifferentSize_t() { fill(); };
-  alignas(memory_t) raw_memory_t _data;
 
   constexpr void set(size_type bit)
   {
@@ -54,19 +52,23 @@ public:
   constexpr auto popcount()
   {
     // MenosGrandes std::accumulate?
-    unsigned int counter{ 0 };
-    for (auto i : _data) { counter += base_1::BitManipulatorImpl::popcount(i); }
+    size_type counter{ 0 };
+     for (memory_t i : _data) {
+    //for (size_type i = 0; i < base_2::memory_size_whole_v; i++) {
+      counter += base_1::BitManipulatorImpl::popcount(i);
+    }
     return counter;
   }
 
 private:
+  alignas(memory_t) raw_memory_t _data;
   constexpr auto fill() -> void
   {
     for (size_type i = 0; i < this->_data.size(); ++i) { _data[i] = memory_t{}; }
   }
-  static constexpr auto get_element(size_type bit) -> std::tuple<memory_t, size_type>
+  static constexpr auto get_element(size_type bit) -> std::tuple<size_type, size_type>
   {
-    const size_type index = static_cast<memory_t>(bit / base_1::memory_t_digits);
+    const size_type index = static_cast<size_type>(bit / base_1::memory_t_digits);
     const size_type element = static_cast<size_type>((bit + base_1::memory_t_digits * index) % base_1::memory_t_digits);
     return { index, element };
   }
