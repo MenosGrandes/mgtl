@@ -60,8 +60,6 @@ public:
     return counter;
   }
 
-private:
-  alignas(memory_t) raw_memory_t _data;
   constexpr auto fill() -> void
   {
     for (size_type i = 0; i < this->_data.size(); ++i) { _data[i] = memory_t{}; }
@@ -72,6 +70,8 @@ private:
     const size_type element = static_cast<size_type>((bit + base_1::memory_t_digits * index) % base_1::memory_t_digits);
     return { index, element };
   }
+private:
+  alignas(memory_t) raw_memory_t _data;
 };
 
 
