@@ -4,12 +4,13 @@
 #include <limits>
 #include <mgtl/bit_array/bit_array.hpp>
 #include <mgtl/bit_array/bit_size.hpp>
+#include <mgtl/bit_array/details/bit_array_different_size.hpp>
 #include <mgtl/bit_array/details/bit_array_layer.hpp>
 #include <mgtl/bit_array/details/bit_array_same_size.hpp>
 #include <mgtl/type_traits/type_traits.hpp>
 
 #include <cstdint>// for uint8_t
-#include<type_traits>
+#include <type_traits>
 
 
 using namespace mgtl;
@@ -38,7 +39,8 @@ using mgtl::bit_array::bite_size::size_type;
 
 #define TEST_TYPES_DIFFERENT_SIZES (BitArray<1245, uint8_t>), (BitArray<6400, uint8_t>), (BitArray<12000, uint8_t>)
 
-#define LAYERS_TYPES (BitArrayWithLayers<64, uint64_t>)
+#define TEST_TYPES_LAYERS (details::BitArrayWithLayers_t<64, uint64_t>)
+
 
 // NOLINTNEXTLINE
 TEMPLATE_TEST_CASE("memory_t same size types, explicit", "[tag]", TEST_TYPES)
@@ -123,7 +125,7 @@ TEMPLATE_TEST_CASE("memory_size_rest_v && memory_size_rounded_up_v ",
   STATIC_REQUIRE(BitArray::base_1::memory_size_rest_v == BitArray::memory_size_rest_v);
   STATIC_REQUIRE(BitArray::base_2::memory_size_rest_v == BitArray::memory_size_rest_v);
 
-  STATIC_REQUIRE(BitArray::memory_size_rounded_up_v == MEMORY_T_SIZE_WHOLE_V +( MEMORY_SIZE_REST_V == 0 ? 0 : 1));
+  STATIC_REQUIRE(BitArray::memory_size_rounded_up_v == MEMORY_T_SIZE_WHOLE_V + (MEMORY_SIZE_REST_V == 0 ? 0 : 1));
   STATIC_REQUIRE(BitArray::base_1::memory_size_rounded_up_v == BitArray::memory_size_rounded_up_v);
   STATIC_REQUIRE(BitArray::base_2::memory_size_rounded_up_v == BitArray::memory_size_rounded_up_v);
 }
@@ -157,7 +159,8 @@ TEMPLATE_TEST_CASE("memory_size_rest_v && memory_size_rounded_up_v differentSize
   STATIC_REQUIRE(BitArray::base::memory_size_whole_v == BitArray::memory_size_whole_v);
   STATIC_REQUIRE(BitArray::base_1::memory_size_whole_v == BitArray::memory_size_whole_v);
   STATIC_REQUIRE(BitArray::base_2::memory_size_whole_v == BitArray::memory_size_whole_v);
-  STATIC_REQUIRE(BitArray::memory_size_whole_v == static_cast<size_type>(NUMBER_OF_BITS/BitArray::base_1::memory_t_digits));
+  STATIC_REQUIRE(
+    BitArray::memory_size_whole_v == static_cast<size_type>(NUMBER_OF_BITS / BitArray::base_1::memory_t_digits));
 
   STATIC_REQUIRE(BitArray::base::number_of_bites_v == BitArray::number_of_bites_v);
   STATIC_REQUIRE(BitArray::base_1::number_of_bites_v == BitArray::number_of_bites_v);
@@ -179,7 +182,7 @@ TEMPLATE_TEST_CASE("memory_size_rest_v && memory_size_rounded_up_v differentSize
 }
 
 // NOLINTNEXTLINE
-TEMPLATE_TEST_CASE("layer bit_array", "[tag]", LAYERS_TYPES)
+TEMPLATE_TEST_CASE("layer bit_array", "[tag]", TEST_TYPES_LAYERS)
 {
   using BitArray = TestType;
   static constexpr auto NUMBER_OF_BITS = BitArray::number_of_bites_v;

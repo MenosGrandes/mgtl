@@ -7,7 +7,7 @@
 #include <limits>
 #include <mgtl/bit_array/bit_manipulator.hpp>
 #include <mgtl/bit_array/bit_size.hpp>
-#include <mgtl/bit_array/details/bit_array_base.hpp>
+#include <mgtl/bit_array/details/bit_array_different_size.hpp>
 #include <mgtl/bit_array/type_traits.hpp>
 #include <mgtl/type_traits/type_traits.hpp>
 
@@ -17,17 +17,9 @@ using namespace mgtl::type_traits;
 using namespace mgtl::bit_array::bite_size;
 namespace mgtl::bit_array::details {
 
-template<std::size_t NUMBER_OF_BITS_IN_LAYER, typename memory_t>
-class _BitArrayLayer_t : public base::_BitArrayBase_t<NUMBER_OF_BITS_IN_LAYER, memory_t>
+template<size_type NUMBER_OF_BITS_IN_LAYER, typename memory_t>
+class _BitArrayLayer_t : public _BitArrayDifferentSize_t<NUMBER_OF_BITS_IN_LAYER, memory_t>
 {
-
-public:
-  using base_1 = typename base::_BitArrayBase_t<NUMBER_OF_BITS_IN_LAYER, memory_t>;
-  using base_2 = typename base_1::bite_size_base;
-  using raw_memory_t = std::array<memory_t, base_2::memory_size_whole_v>;
-
-private:
-  alignas(memory_t) raw_memory_t _data;
 };
 /*
  *
@@ -35,22 +27,90 @@ private:
  *
  * */
 template<std::size_t NUMBER_OF_BITS_OVERALL, typename memory_t>
-class BitArrayWithLayers : public base::_BitArrayBase_t<NUMBER_OF_BITS_OVERALL, memory_t>
+class BitArrayWithLayers_t : public _BitArrayDifferentSize_t<NUMBER_OF_BITS_OVERALL, memory_t>
 {
-  // TEMP MENOSGRANDES!!
-  static_assert(NUMBER_OF_BITS_OVERALL << 4 > 0, " NUMBER_OF_BITS_OVERALL must be dividable by 16 to 0");
 
 public:
   using base_1 = typename base::_BitArrayBase_t<NUMBER_OF_BITS_OVERALL, memory_t>;
   using base_2 = typename base_1::bite_size_base;
   using base_1::size;
-  using raw_memory_t = std::array<memory_t, base_2::memory_size_whole_v>;
+  using raw_memory_t = std::array<memory_t, base_2::memory_size_v>;
+
+  template<std::size_t _NUMBER_OF_BITS, typename _memory_t>
+  friend std::ostream &operator<<(std::ostream &, const _BitArrayDifferentSize_t<_NUMBER_OF_BITS, _memory_t> &);
+
+
+  constexpr void set(size_type bit)
+  {
+    {
+      auto [index, element] = get_element(bit);
+      this->_data[index] = base_1::BitManipulatorImpl::set(element, std::move(this->_data[index]));
+    }
+  }
+  constexpr auto get(size_type bit) -> bool
+  {
+    auto [index, element] = get_element(bit);
+    return base_1::BitManipulatorImpl::get(element, std::move(this->_data[index]));
+  }
+  constexpr auto operator[](size_type bit) -> bool { return get(bit); }
+  constexpr auto clear(size_type bit) -> void
+  {
+    auto [index, element] = get_element(bit);
+    this->_data[index] = base_1::BitManipulatorImpl::clear(element, std::move(this->_data[index]));
+  }
+  constexpr auto popcount()
+  {
+    // MenosGrandes std::accumulate?
+    size_type counter{ 0 };
+    for (memory_t i : _data) {
+      // for (size_type i = 0; i < base_2::memory_size_whole_v; i++) {
+      counter += base_1::BitManipulatorImpl::popcount(i);
+    }
+    return counter;
+  }
+
+  constexpr auto fill() -> void
+  {
+    for (size_type i = 0; i < this->_data.size(); ++i) { _data[i] = memory_t{}; }
+  }
+  static constexpr auto get_element(size_type bit) -> std::tuple<size_type, size_type>
+  {
+    const size_type index = static_cast<size_type>(bit / base_1::memory_t_digits);
+    const size_type element = static_cast<size_type>((bit + base_1::memory_t_digits * index) % base_1::memory_t_digits);
+    return { index, element };
+  }
 
 private:
-  alignas(memory_t) raw_memory_t _data;
-  alignas(memory_t) _BitArrayLayer_t<NUMBER_OF_BITS_OVERALL << 1, memory_t> _layer_1;
-  alignas(memory_t) _BitArrayLayer_t<NUMBER_OF_BITS_OVERALL << 2, memory_t> _layer_2;
-  alignas(memory_t) _BitArrayLayer_t<NUMBER_OF_BITS_OVERALL << 3, memory_t> _layer_3;
-  alignas(memory_t) _BitArrayLayer_t<NUMBER_OF_BITS_OVERALL << 4, memory_t> _layer_4;
+  enum class Layer_e { ONE = 2, TWO = 4, TREE = 8, FOUR = 16 };
+  alignas(memory_t) raw_memory_t _data;// uint8
+  alignas(memory_t) _BitArrayLayer_t<NUMBER_OF_BITS_OVERALL / static_cast<size_type>(Layer_e::ONE), memory_t> _layer_1;
+  alignas(memory_t) _BitArrayLayer_t<NUMBER_OF_BITS_OVERALL / static_cast<size_type>(Layer_e::TWO), memory_t> _layer_2;
+  alignas(memory_t) _BitArrayLayer_t<NUMBER_OF_BITS_OVERALL / static_cast<size_type>(Layer_e::TREE), memory_t> _layer_3;
+  alignas(memory_t) _BitArrayLayer_t<NUMBER_OF_BITS_OVERALL / static_cast<size_type>(Layer_e::FOUR), memory_t> _layer_4;
+
+
+  static constexpr auto map_to_layer([[maybe_unused]]size_type bit, Layer_e layer) -> size_type
+  {
+
+    switch (layer) {
+
+      case Layer_e::ONE :
+      {
+        return 1;
+      }
+      case Layer_e::TWO:
+      {
+        return 2;
+      }
+      case Layer_e::TREE:
+      {
+        return 3;
+      }
+      case Layer_e::FOUR:
+      {
+        return 4;
+      }
+    }
+  }
 };
 }// namespace mgtl::bit_array::details

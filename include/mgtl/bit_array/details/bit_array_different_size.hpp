@@ -25,13 +25,13 @@ class _BitArrayDifferentSize_t : public base::_BitArrayBase_t<NUMBER_OF_BITS, me
 public:
   using base_1 = typename base::_BitArrayBase_t<NUMBER_OF_BITS, memory_t>;
   using base_2 = typename base_1::bite_size_base;
-  using raw_memory_t = std::array<memory_t, base_2::memory_size_rounded_up_v>;
+  using raw_memory_t = std::array<memory_t, base_2::memory_size_v>;
 
 
   template<std::size_t _NUMBER_OF_BITS, typename _memory_t>
   friend std::ostream &operator<<(std::ostream &, const _BitArrayDifferentSize_t<_NUMBER_OF_BITS, _memory_t> &);
 
-  constexpr explicit _BitArrayDifferentSize_t() { fill(); };
+  //constexpr explicit _BitArrayDifferentSize_t() { fill(); };
 
   constexpr void set(size_type bit)
   {
