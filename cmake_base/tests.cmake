@@ -60,11 +60,7 @@ function(AddTest targetName)
   string( CONCAT TEST_PREFIX_V "UT." ${targetName} ".")
   catch_discover_tests(
     ${targetName}
-    TEST_PREFIX ${TEST_PREFIX_V}
-    REPORTER XML
-    OUTPUT_DIR .
-    OUTPUT_PREFIX ${TEST_PREFIX_V}
-    OUTPUT_SUFFIX .xml)
+    TEST_PREFIX ${TEST_PREFIX_V})
 
 endfunction()
 
@@ -101,11 +97,7 @@ function (AddConstexprTests targetName)
 
 catch_discover_tests(
   ${targetName}
-  TEST_PREFIX ${TEST_PREFIX_V}
-  REPORTER XML
-  OUTPUT_DIR .
-  OUTPUT_PREFIX ${TEST_PREFIX_V}
-  OUTPUT_SUFFIX .xml)
+  TEST_PREFIX ${TEST_PREFIX_V})
 
 
 # Disable the constexpr portion of the test, and build again this allows us to have an executable that we can debug when
@@ -124,11 +116,7 @@ target_compile_definitions(${RELAXED_TARGET_NAME} PRIVATE -DCATCH_CONFIG_RUNTIME
 
 catch_discover_tests(
   ${RELAXED_TARGET_NAME}
-  TEST_PREFIX ${TEST_PREFIX_RELAXED_V}
-  REPORTER XML
-  OUTPUT_DIR .
-  OUTPUT_PREFIX ${TEST_PREFIX_RELAXED_V}
-  OUTPUT_SUFFIX .xml)
+  TEST_PREFIX ${TEST_PREFIX_RELAXED_V})
 
 
 endfunction()

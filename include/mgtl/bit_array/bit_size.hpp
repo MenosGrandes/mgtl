@@ -18,7 +18,6 @@ template<std::size_t NUMBER_OF_BITS, typename _memory_t> struct bite_size_base
   constexpr static size_type memory_t_digits = std::numeric_limits<memory_t>::digits;
   constexpr static size_type memory_size_whole_v = static_cast<size_type>(NUMBER_OF_BITS / memory_t_digits);
   constexpr static size_type number_of_bites_v = NUMBER_OF_BITS;
-
 };
 template<std::size_t NUMBER_OF_BITS, typename _memory_t, class IsMemortTSameSizeAsN = void> struct bite_size
 {
@@ -50,7 +49,7 @@ struct bite_size<NUMBER_OF_BITS, _memory_t, typename std::enable_if_t<!is_same_b
 
   constexpr static size_type memory_size_rest_v =
     static_cast<size_type>(NUMBER_OF_BITS - (memory_t_digits * memory_size_whole_v));
-  constexpr static size_type memory_size_rounded_up_v = memory_size_whole_v + (memory_size_rest_v == 0 ? 0 : 1 );
+  constexpr static size_type memory_size_rounded_up_v = memory_size_whole_v + (memory_size_rest_v == 0 ? 0 : 1);
 
   /*This variable will be used when You need to create an container that will fullfill the bites*/
   constexpr static size_type memory_size_v = memory_size_rounded_up_v;

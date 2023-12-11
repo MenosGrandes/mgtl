@@ -17,7 +17,7 @@ using mgtl::bit_array::bite_size::size_type;
 namespace mgtl::bit_array {
 struct PopCount
 {
-  template<typename memory_t> constexpr static unsigned int popcount(memory_t bits)
+  template<typename memory_t> constexpr static unsigned int popcount(const memory_t &bits)
   {
     constexpr auto _digits = digits_v<memory_t>;
     if constexpr (is_less_and_equal(_digits, _digits_u)) {

@@ -31,30 +31,30 @@ public:
   template<std::size_t _NUMBER_OF_BITS, typename _memory_t>
   friend std::ostream &operator<<(std::ostream &, const _BitArrayDifferentSize_t<_NUMBER_OF_BITS, _memory_t> &);
 
-  //constexpr explicit _BitArrayDifferentSize_t() { fill(); };
+   constexpr explicit _BitArrayDifferentSize_t() { fill(); };
 
   constexpr void set(size_type bit)
   {
     auto [index, element] = get_element(bit);
-    this->_data[index] = base_1::BitManipulatorImpl::set(element, std::move(this->_data[index]));
+    this->_data[index] = base_1::BitManipulatorImpl::set(element, this->_data[index]);
   }
-  constexpr auto get(size_type bit) -> bool
+  constexpr auto get(size_type bit) const -> bool
   {
     auto [index, element] = get_element(bit);
-    return base_1::BitManipulatorImpl::get(element, std::move(this->_data[index]));
+    return base_1::BitManipulatorImpl::get(element, this->_data[index]);
   }
-  constexpr auto operator[](size_type bit) -> bool { return get(bit); }
+  constexpr auto operator[](size_type bit) const -> bool { return get(bit); }
   constexpr auto clear(size_type bit) -> void
   {
     auto [index, element] = get_element(bit);
-    this->_data[index] = base_1::BitManipulatorImpl::clear(element, std::move(this->_data[index]));
+    this->_data[index] = base_1::BitManipulatorImpl::clear(element, this->_data[index]);
   }
   constexpr auto popcount()
   {
     // MenosGrandes std::accumulate?
     size_type counter{ 0 };
-     for (memory_t i : _data) {
-    //for (size_type i = 0; i < base_2::memory_size_whole_v; i++) {
+    for (memory_t i : _data) {
+      // for (size_type i = 0; i < base_2::memory_size_whole_v; i++) {
       counter += base_1::BitManipulatorImpl::popcount(i);
     }
     return counter;
@@ -70,8 +70,7 @@ public:
     const size_type element = static_cast<size_type>((bit + base_1::memory_t_digits * index) % base_1::memory_t_digits);
     return { index, element };
   }
-private:
-  alignas(memory_t) raw_memory_t _data;
+  alignas(memory_t) raw_memory_t _data{};
 };
 
 

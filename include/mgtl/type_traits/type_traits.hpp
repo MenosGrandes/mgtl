@@ -106,6 +106,4 @@ template<class F, class S> struct is_less_t<F, S, typename std::enable_if_t<(F::
 template<class F, class S> static constexpr auto is_less_v = is_less_t<F, S>::value;
 
 
-
-
 }// namespace mgtl::type_traits

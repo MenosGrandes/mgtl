@@ -28,11 +28,11 @@ public:
   friend std::ostream &operator<<(std::ostream &, const _BitArrayBase_SameSize_t<_NUMBER_OF_BITS, _memory_t> &);
   alignas(raw_memory_t) raw_memory_t _data{};
 
-  constexpr void set(size_type bit) { this->_data = base_1::BitManipulatorImpl::set(bit, std::move(this->_data)); }
-  constexpr void clear(size_type bit) { this->_data = base_1::BitManipulatorImpl::clear(bit, std::move(this->_data)); }
-  constexpr bool get(size_type bit) { return base_1::BitManipulatorImpl::get(bit, std::move(this->_data)); }
-  constexpr auto operator[](size_type bit) -> bool { return get(bit); }
-  constexpr auto popcount() { return base_1::BitManipulatorImpl::popcount(std::move(this->_data)); }
+  constexpr void set(size_type bit) { this->_data = base_1::BitManipulatorImpl::set(bit, this->_data); }
+  constexpr void clear(size_type bit) { this->_data = base_1::BitManipulatorImpl::clear(bit, this->_data); }
+  constexpr bool get(size_type bit) const { return base_1::BitManipulatorImpl::get(bit, this->_data); }
+  constexpr auto operator[](size_type bit) const -> bool { return get(bit); }
+  constexpr auto popcount() { return base_1::BitManipulatorImpl::popcount(this->_data); }
 };
 
 using BitArray64_t = _BitArrayBase_SameSize_t<_64, uint64_t>;
